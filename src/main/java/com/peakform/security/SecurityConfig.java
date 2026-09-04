@@ -26,6 +26,11 @@ public class SecurityConfig {
                 .ignoringRequestMatchers("/vuln/**")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             )
+            .exceptionHandling(ex -> ex
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "CSRF validation failed");
+                })
+            )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/home", "/login", "/css/**", "/js/**", "/uploads/**").permitAll()
                 .requestMatchers("/vuln/**").permitAll()
