@@ -25,7 +25,6 @@
 
         <sonar.organization>stewie-pixel</sonar.organization>
         <sonar.projectKey>peakform</sonar.projectKey>
-        <sonar.host.url>https://sonarqube.com</sonar.host.url>
     </properties>
 
     <dependencies>
