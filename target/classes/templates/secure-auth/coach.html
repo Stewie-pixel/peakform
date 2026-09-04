@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Coach</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header>
+    <div class="brand">PeakForm</div>
+    <div><a th:href="@{/secure-auth/dashboard}">Dashboard</a><a th:href="@{/}">Home</a></div>
+</header>
+<main>
+    <div class="secure-banner">ROLE_COACH or ROLE_ADMIN only. Enforced by SecurityConfig: <code>/secure-auth/coach/** -&gt; hasAnyRole('COACH','ADMIN')</code>.</div>
+    <div class="card">
+        <h3>My members</h3>
+        <table>
+            <tr><th>Name</th><th>Age</th><th>Suburb</th></tr>
+            <tr th:each="m : ${members}">
+                <td th:text="${m.fullName}">Name</td>
+                <td th:text="${m.age}">30</td>
+                <td th:text="${m.suburb}">Suburb</td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

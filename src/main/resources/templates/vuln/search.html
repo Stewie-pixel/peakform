@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>VULNERABLE - Member Search (SQL Injection)</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="vuln-banner">
+        <strong>Vulnerable demo (CWE-89 SQL Injection).</strong> The search term is concatenated
+        directly into the SQL string. Try: <code>' OR '1'='1</code> or
+        <code>x' UNION SELECT id,username,password,role,1,1 FROM app_user -- </code>
+    </div>
+
+    <div class="card">
+        <form th:action="@{/vuln/search}" method="get">
+            <label>Search by name</label>
+            <input type="text" name="term" th:value="${term}" placeholder="e.g. Margaret"/>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="card" th:if="${executedSql}">
+        <h4>Executed SQL (shown for demo purposes)</h4>
+        <code class="sql" th:text="${executedSql}">SELECT ...</code>
+        <p th:if="${error}" class="error-text" th:text="'DB error: ' + ${error}"></p>
+    </div>
+
+    <div class="card">
+        <h3>Results</h3>
+        <table>
+            <tr><th>ID</th><th>Name</th><th>Age</th><th>Suburb</th><th>Email</th><th>Medical note</th></tr>
+            <tr th:each="r : ${results}">
+                <td th:text="${r.id}">1</td>
+                <td th:text="${r.fullName}">Name</td>
+                <td th:text="${r.age}">30</td>
+                <td th:text="${r.suburb}">Suburb</td>
+                <td th:text="${r.email}">email</td>
+                <td th:text="${r.medicalNote}">note</td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

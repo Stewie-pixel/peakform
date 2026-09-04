@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SECURE - Member Directory</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="secure-banner">
+        <strong>Fixed:</strong> requires ROLE_COACH/ROLE_ADMIN login (Spring Security), medical notes are
+        never returned in bulk results, age is generalised to a 10-year bracket, available time is
+        generalised to a day of the week only, queries are rate-limited per session, and every query is
+        logged with the requesting user's identity.
+    </div>
+    <p th:if="${error}" class="error-text" th:text="${error}"></p>
+
+    <div class="card">
+        <form th:action="@{/secure/directory}" method="get">
+            <label>Suburb</label>
+            <input type="text" name="suburb" th:value="${suburb}"/>
+            <label>Min age</label>
+            <input type="number" name="minAge" th:value="${minAge}"/>
+            <label>Max age</label>
+            <input type="number" name="maxAge" th:value="${maxAge}"/>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Results (generalised)</h3>
+        <table>
+            <tr><th>Name</th><th>Age range</th><th>Suburb</th><th>Available day</th></tr>
+            <tr th:each="m : ${members}">
+                <td th:text="${m.fullName}">Name</td>
+                <td th:text="${m.ageRange}">30-39</td>
+                <td th:text="${m.suburb}">Suburb</td>
+                <td th:text="${m.dayOnly}">Tuesday</td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

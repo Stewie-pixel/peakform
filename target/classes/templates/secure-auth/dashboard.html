@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head><meta charset="UTF-8"><title>Dashboard</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header>
+    <div class="brand">PeakForm</div>
+    <div>
+        <a th:href="@{/}">Home</a>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" style="background:none;border:none;color:#fff;cursor:pointer;text-decoration:underline;">Logout</button>
+        </form>
+    </div>
+</header>
+<main>
+    <div class="secure-banner">
+        Logged in as <strong th:text="${username}"></strong>.
+        This whole /secure-auth/** area is protected by Spring Security, including its default CSRF filter.
+    </div>
+    <div class="card">
+        <h3>Role-based areas</h3>
+        <ul>
+            <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/secure-auth/admin}">Admin: all user accounts</a></li>
+            <li sec:authorize="hasAnyRole('COACH','ADMIN')"><a th:href="@{/secure-auth/coach}">Coach: member list</a></li>
+            <li sec:authorize="hasAnyRole('CLIENT','COACH','ADMIN')"><a th:href="@{/secure-auth/client}">Client: my settings (CSRF-protected form)</a></li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>

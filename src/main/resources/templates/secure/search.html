@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SECURE - Member Search</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="secure-banner">
+        <strong>Fixed:</strong> the search term is always bound as a query parameter
+        (parameterized HQL, or a MySQL stored procedure) - it can never change the
+        query's structure. The same <code>' OR '1'='1</code> payload used against
+        /vuln/search here just searches, harmlessly, for a member literally named that string.
+    </div>
+
+    <div class="card">
+        <form th:action="@{/secure/search}" method="get">
+            <label>Search by name</label>
+            <input type="text" name="term" th:value="${term}" placeholder="e.g. Margaret"/>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Results</h3>
+        <table>
+            <tr><th>ID</th><th>Name</th><th>Age</th><th>Suburb</th><th>Email</th></tr>
+            <tr th:each="m : ${results}">
+                <td th:text="${m.id}">1</td>
+                <td th:text="${m.fullName}">Name</td>
+                <td th:text="${m.age}">30</td>
+                <td th:text="${m.suburb}">Suburb</td>
+                <td th:text="${m.email}">email</td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

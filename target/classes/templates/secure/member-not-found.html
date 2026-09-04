@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Member Not Found</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="card">
+        <h3>Member not found</h3>
+        <p th:text="${message}">message</p>
+        <p class="small-muted">
+            Rendered by MemberLookupController's own @ExceptionHandler (controller-level, Task 3
+            requirement), not the application-wide GlobalExceptionHandler. The full details were also
+            logged to logs/peakform.log.
+        </p>
+        <a class="btn" th:href="@{/secure/directory}">Back to directory</a>
+    </div>
+</main>
+</body>
+</html>

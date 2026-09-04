@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SECURE - Update Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="secure-banner">
+        <strong>Fixed:</strong> a random token is bound to your session server-side and must be
+        echoed back in the form, and the Referer header must point back at this app. Try the same
+        forged cross-site PoC used against /vuln/profile/update - it will be rejected because the
+        attacker's page can neither read your session's token nor send a matching Referer.
+    </div>
+
+    <div class="card" th:if="${member}">
+        <h3>Update profile - Member #<span th:text="${member.id}"></span></h3>
+        <p th:if="${updated}" class="secure-banner">Profile updated.</p>
+        <p th:if="${error}" class="error-text" th:text="${error}"></p>
+        <form th:action="@{/secure/profile/update}" method="post">
+            <input type="hidden" name="id" th:value="${member.id}"/>
+            <input type="hidden" name="csrfToken" th:value="${csrfToken}"/>
+            <label>Email</label>
+            <input type="text" name="email" th:value="${member.email}"/>
+            <label>Available slot</label>
+            <input type="text" name="availableSlot" th:value="${member.availableSlot}"/>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Admin</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header>
+    <div class="brand">PeakForm</div>
+    <div><a th:href="@{/secure-auth/dashboard}">Dashboard</a><a th:href="@{/}">Home</a></div>
+</header>
+<main>
+    <div class="secure-banner">ROLE_ADMIN only. Enforced by SecurityConfig: <code>/secure-auth/admin/** -&gt; hasRole('ADMIN')</code>.</div>
+    <div class="card">
+        <h3>All user accounts</h3>
+        <table>
+            <tr><th>ID</th><th>Username</th><th>Role</th><th>Enabled</th></tr>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}">1</td>
+                <td th:text="${u.username}">user</td>
+                <td th:text="${u.role}">ROLE_X</td>
+                <td th:text="${u.enabled}">true</td>
+            </tr>
+        </table>
+        <p class="small-muted">Note: only usernames/roles are ever displayed - password hashes are never rendered to any view.</p>
+    </div>
+</main>
+</body>
+</html>

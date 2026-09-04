@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>My Settings</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header>
+    <div class="brand">PeakForm</div>
+    <div><a th:href="@{/secure-auth/dashboard}">Dashboard</a><a th:href="@{/}">Home</a></div>
+</header>
+<main>
+    <div class="secure-banner">
+        ROLE_CLIENT/COACH/ADMIN. This form's POST is protected purely by Spring Security's own
+        default CSRF filter (Task 4 demo) - a forged cross-site POST to
+        <code>/secure-auth/client/settings</code> without a valid <code>${_csrf.token}</code>
+        is rejected with HTTP 403 before it ever reaches AuthDemoController's code.
+    </div>
+
+    <div class="card">
+        <h3>Settings - logged in as <span th:text="${username}"></span></h3>
+        <p th:if="${updated}" class="secure-banner" th:text="'Display email updated to: ' + ${displayEmail}"></p>
+        <form th:action="@{/secure-auth/client/settings}" method="post">
+            <label>Display email</label>
+            <input type="text" name="displayEmail" placeholder="you@example.com"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

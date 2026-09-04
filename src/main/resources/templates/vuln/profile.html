@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>VULNERABLE - Update Profile (CSRF)</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="vuln-banner">
+        <strong>Vulnerable demo (CWE-352 CSRF).</strong>
+        This form has no CSRF token and the endpoint checks nothing but the session cookie.
+        Open <code>docs/attack-poc/csrf-poc.html</code> in a second tab while "logged into" this
+        session (just having visited this page is enough here, since there's no real auth on /vuln/**)
+        and watch the email field change without you submitting this form.
+    </div>
+
+    <div class="card" th:if="${member}">
+        <h3>Update profile - Member #<span th:text="${member.id}"></span></h3>
+        <p th:if="${updated}" class="secure-banner">Profile updated.</p>
+        <form th:action="@{/vuln/profile/update}" method="post">
+            <input type="hidden" name="id" th:value="${member.id}"/>
+            <label>Email</label>
+            <input type="text" name="email" th:value="${member.email}"/>
+            <label>Available slot</label>
+            <input type="text" name="availableSlot" th:value="${member.availableSlot}"/>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

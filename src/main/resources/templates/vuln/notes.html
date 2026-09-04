@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>VULNERABLE - Progress Notes (Stored XSS)</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="vuln-banner">
+        <strong>Vulnerable demo (CWE-79 Stored XSS).</strong>
+        Note content is rendered with Thymeleaf's <code>th:utext</code> (no output encoding) and never
+        validated on the way in. Try submitting: <code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>
+    </div>
+
+    <div class="card">
+        <h3>Add a progress note</h3>
+        <form th:action="@{/vuln/notes/add}" method="post">
+            <label>Member ID</label>
+            <input type="number" name="memberId" value="1" required/>
+            <label>Author (coach name)</label>
+            <input type="text" name="author" required/>
+            <label>Note content</label>
+            <textarea name="content" rows="3" required></textarea>
+            <button type="submit">Add note</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>All notes</h3>
+        <table>
+            <tr><th>Member</th><th>Author</th><th>Content</th><th>Created</th></tr>
+            <tr th:each="note : ${notes}">
+                <td th:text="${note.memberId}">1</td>
+                <td th:text="${note.author}">Coach</td>
+                <td th:utext="${note.content}">content</td>
+                <td th:text="${note.createdAt}">date</td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

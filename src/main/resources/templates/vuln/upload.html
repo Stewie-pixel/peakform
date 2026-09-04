@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>VULNERABLE - File Upload</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="vuln-banner">
+        <strong>Vulnerable demo (CWE-434 Unrestricted File Upload).</strong>
+        No extension whitelist, no content check, no size limit, original filename used verbatim,
+        and the destination folder is web-served. Try uploading a file named
+        <code>evil.html</code> containing <code>&lt;script&gt;alert('xss via upload')&lt;/script&gt;</code>,
+        then open <code>/uploads/evil.html</code> directly.
+    </div>
+
+    <div class="card">
+        <h3>Upload a progress photo</h3>
+        <form th:action="@{/vuln/upload}" method="post" enctype="multipart/form-data">
+            <label>Member ID</label>
+            <input type="number" name="memberId" value="1" required/>
+            <label>File</label>
+            <input type="file" name="file" required/>
+            <button type="submit">Upload</button>
+        </form>
+        <p th:if="${uploaded}" class="secure-banner"
+           th:text="'Stored as: ' + ${uploaded.storedFilename} + ' (' + ${uploaded.contentType} + ', ' + ${uploaded.sizeBytes} + ' bytes)'"></p>
+    </div>
+
+    <div class="card">
+        <h3>Uploaded files</h3>
+        <table>
+            <tr><th>Member</th><th>Filename</th><th>Type</th><th>Size</th><th>Link</th></tr>
+            <tr th:each="f : ${files}">
+                <td th:text="${f.memberId}">1</td>
+                <td th:text="${f.storedFilename}">file</td>
+                <td th:text="${f.contentType}">type</td>
+                <td th:text="${f.sizeBytes}">0</td>
+                <td><a th:href="@{'/uploads/' + ${f.storedFilename}}" target="_blank">open</a></td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PeakForm Coaching Portal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <div class="brand">PeakForm Coaching Portal</div>
+    <div><a th:href="@{/login}">Login</a></div>
+</header>
+<main>
+    <div class="card">
+        <h2>SIT218 Task 7.3HD Demo App</h2>
+        <p class="small-muted">Every feature below exists in two versions: a deliberately vulnerable one under /vuln/, and a hardened one under /secure/ or /secure-auth/.</p>
+    </div>
+
+    <div class="card">
+        <h3>Vulnerable versions (/vuln/**) - no login required</h3>
+        <ul>
+            <li><a th:href="@{/vuln/notes}">Progress notes - Stored XSS</a></li>
+            <li><a th:href="@{/vuln/search}">Member search - SQL Injection</a></li>
+            <li><a th:href="@{/vuln/upload}">File upload - Unrestricted upload</a></li>
+            <li><a th:href="@{/vuln/profile/1}">Profile update - CSRF</a></li>
+            <li><a th:href="@{/vuln/directory}">Member directory - Data aggregation / inference</a></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>Secure versions (Task 3 fixes, /secure/**) - no login required</h3>
+        <ul>
+            <li><a th:href="@{/secure/notes}">Progress notes (validated + escaped)</a></li>
+            <li><a th:href="@{/secure/search}">Member search (parameterized query)</a></li>
+            <li><a th:href="@{/secure/upload}">File upload (validated)</a></li>
+            <li><a th:href="@{/secure/profile/1}">Profile update (custom CSRF token)</a></li>
+            <li><a th:href="@{/secure/directory}">Member directory (auth + generalized, login required)</a></li>
+            <li><a th:href="@{/secure/member/1}">Member detail (controller-level exception handler demo)</a></li>
+            <li><a th:href="@{/secure/member/999}">Member detail for a non-existent id (triggers the handler)</a></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>Task 4 - Spring Security auth + role-based access + default CSRF</h3>
+        <p class="small-muted">Login as admin1/Admin@12345, coach1/Coach@12345, or client1/Client@12345 (seeded on startup).</p>
+        <a class="btn" th:href="@{/login}">Go to login</a>
+    </div>
+</main>
+</body>
+</html>

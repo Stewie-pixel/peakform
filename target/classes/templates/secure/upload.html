@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SECURE - File Upload</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="secure-banner">
+        <strong>Fixed:</strong> extension whitelist (jpg/jpeg/png/pdf), magic-byte content check,
+        2MB size limit, a randomly generated on-disk filename (client filename is never trusted),
+        and storage outside the web-served static folder. The same <code>evil.html</code> upload
+        used against /vuln/upload is rejected here.
+    </div>
+
+    <div class="card">
+        <h3>Upload a progress photo</h3>
+        <form th:action="@{/secure/upload}" method="post" enctype="multipart/form-data">
+            <label>Member ID</label>
+            <input type="number" name="memberId" value="1" required/>
+            <label>File (jpg, jpeg, png, or pdf only, max 2MB)</label>
+            <input type="file" name="file" required/>
+            <button type="submit">Upload</button>
+        </form>
+        <p th:if="${error}" class="error-text" th:text="${error}"></p>
+        <p th:if="${uploaded}" class="secure-banner"
+           th:text="'Stored safely as: ' + ${uploaded.storedFilename} + ' (' + ${uploaded.contentType} + ', ' + ${uploaded.sizeBytes} + ' bytes). Original name ' + ${uploaded.originalFilename} + ' was not used on disk.'"></p>
+    </div>
+
+    <div class="card">
+        <h3>Uploaded files (stored outside the web root - not directly browsable)</h3>
+        <table>
+            <tr><th>Member</th><th>Original name</th><th>Stored (safe) name</th><th>Type</th><th>Size</th></tr>
+            <tr th:each="f : ${files}">
+                <td th:text="${f.memberId}">1</td>
+                <td th:text="${f.originalFilename}">original.jpg</td>
+                <td th:text="${f.storedFilename}">uuid.jpg</td>
+                <td th:text="${f.contentType}">type</td>
+                <td th:text="${f.sizeBytes}">0</td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

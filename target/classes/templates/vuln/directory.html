@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>VULNERABLE - Member Directory (Data Aggregation)</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="vuln-banner">
+        <strong>Vulnerable demo (CWE-213 Data Aggregation / Inference).</strong>
+        No login required, every field is returned including exact medical notes and the exact time
+        window a member is home alone, and filters can be freely combined. Try:
+        <code>suburb=Torquay&amp;minAge=70&amp;maxAge=85&amp;keyword=cardiac</code> -
+        this alone identifies one specific person, their medical condition, and exactly when
+        they are home alone.
+    </div>
+
+    <div class="card">
+        <form th:action="@{/vuln/directory}" method="get">
+            <label>Suburb</label>
+            <input type="text" name="suburb" th:value="${suburb}"/>
+            <label>Min age</label>
+            <input type="number" name="minAge" th:value="${minAge}"/>
+            <label>Max age</label>
+            <input type="number" name="maxAge" th:value="${maxAge}"/>
+            <label>Medical note contains</label>
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="e.g. cardiac"/>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Results</h3>
+        <table>
+            <tr><th>Name</th><th>Age</th><th>Suburb</th><th>Email</th><th>Medical note</th><th>Available slot (exact)</th></tr>
+            <tr th:each="m : ${members}">
+                <td th:text="${m.fullName}">Name</td>
+                <td th:text="${m.age}">30</td>
+                <td th:text="${m.suburb}">Suburb</td>
+                <td th:text="${m.email}">email</td>
+                <td th:text="${m.medicalNote}">note</td>
+                <td th:text="${m.availableSlot}">slot</td>
+            </tr>
+        </table>
+    </div>
+</main>
+</body>
+</html>

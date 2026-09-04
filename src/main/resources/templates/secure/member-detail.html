@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Member Detail</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<header><div class="brand">PeakForm</div><a th:href="@{/}">Home</a></header>
+<main>
+    <div class="card">
+        <h3 th:text="${member.fullName}">Name</h3>
+        <p>Suburb: <span th:text="${member.suburb}"></span></p>
+        <p>Age: <span th:text="${member.age}"></span></p>
+        <p class="small-muted">Try /secure/member/999 to trigger the controller-level exception handler.</p>
+    </div>
+</main>
+</body>
+</html>

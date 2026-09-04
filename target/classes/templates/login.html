@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - PeakForm</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><div class="brand">PeakForm Coaching Portal</div></header>
+<main>
+    <div class="card">
+        <h2>Login</h2>
+        <p class="small-muted">Demo accounts: admin1/Admin@12345, coach1/Coach@12345, client1/Client@12345</p>
+        <p th:if="${param.error}" class="error-text">Invalid username or password.</p>
+        <p th:if="${param.logout}" class="secure-banner">You have been logged out.</p>
+        <form th:action="@{/login}" method="post">
+            <label>Username</label>
+            <input type="text" name="username" required autofocus="autofocus"/>
+            <label>Password</label>
+            <input type="password" name="password" required/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
